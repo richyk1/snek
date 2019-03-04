@@ -14,7 +14,6 @@ class Game
 	EventHandler m_eventHandler;
 public:
 	Game();
-	~Game();
 	void Update();
 	void Render();
 	void Run();

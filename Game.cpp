@@ -9,12 +9,11 @@ int main()
 	myGame.Run();
 }
 
-Game::Game()
+Game::Game() : m_eventHandler(window, m_player), m_player(WIDTH, HEIGHT)
 {
 	window.create(sf::VideoMode(WIDTH, HEIGHT), "My window");
 	window.setFramerateLimit(30);
 
-	m_eventHandler = EventHandler(window, m_player);
 	m_food = Food(WIDTH, HEIGHT);
 	m_food.NewFood();	
 }
@@ -31,8 +30,8 @@ void Game::Run()
 
 void Game::Update()
 {
-	//m_eventHandler.HandleEvents();
-	m_player.Move(HEIGHT, WIDTH);
+	m_eventHandler.HandleEvents();
+	m_player.Move();
 	if (m_player.GetRectangle().getGlobalBounds().intersects(m_food.GetRectangle().getGlobalBounds()))
 	{
 		std::cout << "Got food" << std::endl;

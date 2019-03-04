@@ -2,11 +2,9 @@
 #include "Entity.h"
 #include "EventHandler.h"
 
-EventHandler::EventHandler(sf::RenderWindow& window, Player& player)
+EventHandler::EventHandler(sf::RenderWindow& window, Player& player) : m_window(window), m_player(player), m_conditionDirection(m_player)
 {
-	m_player = &player;
-	m_window = &window;
-	m_conditionDirection = ConditionDirection(player);
+
 }
 
 void EventHandler::HandleEvents()
@@ -34,17 +32,17 @@ void CaseUp::Do(Player& player)
 
 void CaseDown::Do(Player& player)
 {
-	if (player.Down()) std::cout << "User pressed up." << std::endl;
+	if (player.Down()) std::cout << "User pressed down." << std::endl;
 }
 
 void CaseLeft::Do(Player& player)
 {
-	if (player.Left()) std::cout << "User pressed up." << std::endl;
+	if (player.Left()) std::cout << "User pressed left." << std::endl;
 }
 
 void CaseRight::Do(Player& player)
 {
-	if (player.Right()) std::cout << "User pressed up." << std::endl;
+	if (player.Right()) std::cout << "User pressed right." << std::endl;
 }
 
 sf::Keyboard::Key CaseUp::Direction()
@@ -83,6 +81,6 @@ void ConditionDirection::Switch(sf::Keyboard::Key& key)
 		[&key](ICase * x) {return x->Direction() == key; });
 	
 	ICase* myCase = *m_match;
-	IAction* myAction = (IAction*)myCase;
+	IAction* myAction = dynamic_cast<IAction*>(myCase);
 	myAction->Do(m_player);
 }

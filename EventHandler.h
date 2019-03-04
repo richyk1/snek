@@ -53,9 +53,8 @@ class ConditionDirection : public SwitchCase
 {
 private:
 	 std::vector<ICase*>::iterator m_match;
-	 Player m_player;
+	 Player& m_player;
 public:
-	ConditionDirection();
 	ConditionDirection(Player& player);
 	void Switch(sf::Keyboard::Key& key);
 };
@@ -64,8 +63,8 @@ class EventHandler
 {
 private:
 	sf::Event m_event;
-	sf::RenderWindow* m_window;
-	Player* m_player;
+	sf::RenderWindow& m_window;
+	Player& m_player;
 	ConditionDirection m_conditionDirection;
 public:
 	EventHandler(sf::RenderWindow& window, Player& player);

@@ -19,16 +19,17 @@ private:
 	sf::Vector2f direction;
 	sf::Vector2f newCoordinates;
 	sf::Vector2f partCoordinates;
+	int m_width, m_height;
 	float speed;
 	std::vector<sf::RectangleShape> snek;
 public:
-	Player();
+	Player(int screenHeight, int screenWidth);
 	~Player();
 	bool Up();
 	bool Down();
 	bool Left();
 	bool Right();
-	void Move(int screenHeight, int screenWidth);
+	void Move();
 	void Grow();
 	sf::RectangleShape GetRectangle();
 	sf::Vector2f GetPosition();

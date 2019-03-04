@@ -17,7 +17,7 @@ sf::Vector2f Entity::GetPosition() {
 	return rectangle.getPosition();
 }
 
-Player::Player()
+Player::Player(int screenWidth, int screenHeight) : m_width(screenWidth), m_height(screenHeight)
 {
 	snek.emplace_back(sf::RectangleShape());
 	snek.front().setSize(sf::Vector2f(20, 20));
@@ -56,13 +56,13 @@ bool Player::Right()
 	return true;
 }
 
-void Player::Move(int screenHeight, int screenWidth)
+void Player::Move()
 {
 	const sf::Vector2f oldCoordinates = snek.front().getPosition();
 	// Adding coordinates of previous position together with the distance from new position
 	newCoordinates = sf::Vector2f(snek.front().getPosition().x + direction.x, snek.front().getPosition().y + direction.y);
 	//std::cout << newPosition.x << "  " << newPosition.y << std::endl;
-	if (newCoordinates.x > screenWidth - snek.front().getLocalBounds().width || newCoordinates.x < 0 || newCoordinates.y > screenHeight - snek.front().getLocalBounds().height || newCoordinates.y < 0)
+	if (newCoordinates.x > m_width - snek.front().getLocalBounds().width || newCoordinates.x < 0 || newCoordinates.y > m_height - snek.front().getLocalBounds().height || newCoordinates.y < 0)
 	{
 		std::cout << "I hit the wall!" << std::endl;
 		direction = sf::Vector2f(0, 0);
