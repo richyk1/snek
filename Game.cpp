@@ -1,5 +1,6 @@
 #include "Common.h"
 #include "Entity.h"
+#include "EventHandler.h"
 #include "Game.h"
 
 int main()
@@ -12,15 +13,12 @@ Game::Game()
 {
 	window.create(sf::VideoMode(WIDTH, HEIGHT), "My window");
 	window.setFramerateLimit(30);
-	food = new Food(WIDTH, HEIGHT);
-	food->NewFood();
+
+	m_eventHandler = EventHandler(window, m_player);
+	m_food = Food(WIDTH, HEIGHT);
+	m_food.NewFood();	
 }
 
-
-Game::~Game()
-{
-	delete food;
-}
 
 void Game::Run()
 {
@@ -33,42 +31,13 @@ void Game::Run()
 
 void Game::Update()
 {
-	while (window.pollEvent(event))
-	{
-		switch (event.type)
-		{
-		case sf::Event::EventType::Closed:
-			window.close();
-			break;
-		case sf::Event::EventType::KeyPressed:
-			switch (event.key.code)
-			{
-			case sf::Keyboard::Up:
-				if(player.Up()) std::cout << "User pressed up." << std::endl; 
-				break;
-			case sf::Keyboard::Down:
-				if(player.Down()) std::cout << "User pressed down." << std::endl;
-				break;
-			case sf::Keyboard::Left:
-				if(player.Left()) std::cout << "User pressed left." << std::endl;
-				break;
-			case sf::Keyboard::Right:
-				if(player.Right()) std::cout << "User pressed right." << std::endl;
-				break;
-			default:
-				break;
-			}
-			break;
-		default:
-			break;
-		}
-	}
-	player.Move(HEIGHT, WIDTH);
-	if (player.GetRectangle().getGlobalBounds().intersects(food->GetRectangle().getGlobalBounds()))
+	//m_eventHandler.HandleEvents();
+	m_player.Move(HEIGHT, WIDTH);
+	if (m_player.GetRectangle().getGlobalBounds().intersects(m_food.GetRectangle().getGlobalBounds()))
 	{
 		std::cout << "Got food" << std::endl;
-		food->NewFood();
-		player.Grow();
+		m_food.NewFood();
+		m_player.Grow();
 	}
 }
 
@@ -76,11 +45,11 @@ void Game::Render()
 {
 	window.clear();
 	// Render all players
-	for (const auto& part : player.GetParts())
+	for (const auto& part : m_player.GetParts())
 	{
 		window.draw(part);
 	}
-	window.draw(food->GetRectangle());
+	window.draw(m_food.GetRectangle());
 
 	window.display();
 }

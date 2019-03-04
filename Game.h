@@ -7,11 +7,11 @@ class Game
 	static const int WIDTH = 800;
 	static const int HEIGHT = 600;
 	sf::RenderWindow window;
-	sf::Event event;
-	sf::Clock clock;
-	Player player;
-	Food* food;
-	sf::RectangleShape foodShape;
+	sf::Clock m_clock;
+	Player m_player;
+	Food m_food;
+	sf::RectangleShape m_foodShape;
+	EventHandler m_eventHandler;
 public:
 	Game();
 	~Game();
